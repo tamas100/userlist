@@ -27,9 +27,9 @@ export default class Userlist extends Component {
       email: `${userData.email}`, 
       key: `${userData.login.uuid}`
     };
-    const newUserList = [...this.state.users, newUser]
-    this.setState({
-      users: newUserList 
+   
+    this.setState((state) => {
+      return {users: [...state.users, newUser]}
     });
   }
   
