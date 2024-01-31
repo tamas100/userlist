@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
 import UserItem from '../UserItem/UserItem';
+import axios from 'axios';
 
 export default class Userlist extends Component {
 
-    state = {
+  state = {
         users: [
           
         ]
-      }
+  }
 
   componentDidMount() {
-    fetch('https://randomuser.me/api/?results=3&nat=DE')
-    .then(resp => resp.json())
-    .then(users => {
-        for (let user of users.results) {
+    axios
+      .get('https://randomuser.me/api/?results=3&nat=DE')
+      .then(resp => {
+        const users = resp.data.results
+        for (let user of users) {
           this.insertElement(user);
         }
         console.log(users);
-      })
+      });
+    // fetch('https://randomuser.me/api/?results=3&nat=DE')
+    // .then(resp => resp.json())
+    // .then(users => {
+    //     for (let user of users.results) {
+    //       this.insertElement(user);
+    //     }
+    //     console.log(users);
+    //   })
   }
 
   insertElement = (userData) => {
@@ -41,19 +51,32 @@ export default class Userlist extends Component {
   }
 
   handleInsert = () => {
-    this.insertElement("NEW", "NEW Super Str. 1", "n@ew.de");
+    axios
+      .get('https://randomuser.me/api/?results=3&nat=DE')
+      .then(resp => {
+        const users = resp.data.results        
+        this.insertElement(users[0]);        
+        console.log(users);
+      });
   }
 
   handleDelete = () => {
-    this.deleteElement(1);
+    const len = this.state.users.length; 
+    if (len > 0) {
+      const randomIndex = Math.trunc(Math.random() * len);
+      const key = this.state.users[randomIndex].key
+      this.deleteElement(key);
+    }
   }
 
   render() {    
     const userItems = this.state.users.map(
-        user => <UserItem name={user.name} 
-                        adress={user.adress} 
-                        email={user.email}
-                        key={user.key}/>
+      user => <UserItem name={user.name}
+      address={user.address}
+      email={user.email}
+      key={user.key}
+      id={user.key}
+      handleClick={this.deleteElement} />
     );
     return (
       <>
