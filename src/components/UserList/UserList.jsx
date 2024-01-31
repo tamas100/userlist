@@ -72,7 +72,7 @@ export default class Userlist extends Component {
   render() {    
     const userItems = this.state.users.map(
       user => <UserItem name={user.name}
-      address={user.address}
+      adress={user.adress}
       email={user.email}
       key={user.key}
       id={user.key}
